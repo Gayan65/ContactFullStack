@@ -91,7 +91,7 @@ export default function Root() {
                             {contacts.map((contact) => (
                                 <li key={contact._id}>
                                     <NavLink
-                                        to={`contacts/${contact.id}`}
+                                        to={`contacts/${contact._id}`}
                                         className={({ isActive, isPending }) =>
                                             isActive
                                                 ? "active"

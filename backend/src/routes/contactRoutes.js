@@ -63,7 +63,7 @@ contact_router.post("/contact/create", async (req, res) => {
 contact_router.get("/contact/find/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        await Contact.find({ id: id }).then((contact) => {
+        await Contact.find({ _id: id }).then((contact) => {
             if (contact.length <= 0) {
                 return res.status(200).json({
                     success: false,

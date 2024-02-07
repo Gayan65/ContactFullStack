@@ -34,8 +34,13 @@ export async function createContact() {
 export async function getContact(id) {
     console.log("getContact");
     await fakeNetwork(`contact:${id}`);
-    let contacts = await localforage.getItem("contacts");
-    let contact = contacts.find((contact) => contact.id === id);
+    //let contacts = await localforage.getItem("contacts");
+    //let contact = contacts.find((contact) => contact.id === id);
+    let contact = await axios
+        .get(`http://localhost:4000/contact/find/${id}`)
+        .then((response) => {
+            return response.data.contact[0];
+        });
     return contact ?? null;
 }
 
