@@ -1,4 +1,3 @@
-import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 import axios from "axios";
@@ -6,9 +5,7 @@ import qs from "qs";
 
 //THIS CALLS EVERY TIME TO MAP THE CONTACTS
 export async function getContacts(query) {
-    console.log("getContacts");
     await fakeNetwork(`getContacts:${query}`);
-    //let contacts = await localforage.getItem("contacts");
     let contacts = await axios("http://localhost:4000/contact/all").then(
         (response) => {
             return response.data.contacts;
@@ -22,13 +19,7 @@ export async function getContacts(query) {
 }
 
 export async function createContact() {
-    console.log("createContact");
     await fakeNetwork();
-    //let id = Math.random().toString(36).substring(2, 9);
-    //let contact = { id, createdAt: Date.now() };
-    //let contacts = await getContacts();
-    //contacts.unshift(contact);
-    //await set(contacts);
     let contactDate = { createdAt: Date.now() };
     const data = qs.stringify(contactDate);
 
@@ -38,21 +29,13 @@ export async function createContact() {
             var person = {
                 id: response.data.contact._id,
             };
-
-            //const contactObj = response.data.contact;
-            //contactObj.contactId = contactObj._id;
             return person;
         });
-
-    console.log("from create contact", contact);
     return contact;
 }
 
 export async function getContact(id) {
-    console.log("getContact", id);
     await fakeNetwork(`contact:${id}`);
-    //let contacts = await localforage.getItem("contacts");
-    //let contact = contacts.find((contact) => contact.id === id);
     let contact = await axios
         .get(`http://localhost:4000/contact/find/${id}`)
         .then((response) => {
@@ -62,13 +45,7 @@ export async function getContact(id) {
 }
 
 export async function updateContact(id, updates) {
-    console.log("updateContact, id, updates", id, updates);
     await fakeNetwork();
-    //let contacts = await localforage.getItem("contacts");
-    //let contact = contacts.find((contact) => contact.id === id);
-    //if (!contact) throw new Error("No contact found for", id);
-    //Object.assign(contact, updates);
-    //await set(contacts);
     const data = qs.stringify(updates);
     const contact = await axios.patch(
         `http://localhost:4000/contact/edit/${id}`,
@@ -78,18 +55,6 @@ export async function updateContact(id, updates) {
 }
 
 export async function deleteContact(id) {
-    console.log("deleteContact", id);
-    /*
-    let contacts = await localforage.getItem("contacts");
-    let index = contacts.findIndex((contact) => contact.id === id);
-    if (index > -1) {
-        contacts.splice(index, 1);
-        await set(contacts);
-        return true;
-    }
-    
-    return false;
-    */
     await axios.delete(`http://localhost:4000/contact/delete/${id}`);
 }
 
