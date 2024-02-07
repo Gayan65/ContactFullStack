@@ -78,7 +78,8 @@ export async function updateContact(id, updates) {
 }
 
 export async function deleteContact(id) {
-    console.log("deleteContact");
+    console.log("deleteContact", id);
+    /*
     let contacts = await localforage.getItem("contacts");
     let index = contacts.findIndex((contact) => contact.id === id);
     if (index > -1) {
@@ -86,12 +87,10 @@ export async function deleteContact(id) {
         await set(contacts);
         return true;
     }
+    
     return false;
-}
-
-function set(contacts) {
-    console.log("set");
-    return localforage.setItem("contacts", contacts);
+    */
+    await axios.delete(`http://localhost:4000/contact/delete/${id}`);
 }
 
 // fake a cache so we don't slow down stuff we've already seen

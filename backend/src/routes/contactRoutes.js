@@ -119,4 +119,30 @@ contact_router.patch("/contact/edit/:id", async (req, res) => {
     }
 });
 
+// Delete a Contact
+contact_router.delete("/contact/delete/:id", (req, res) => {
+    const contactId = req.params.id;
+    try {
+        Contact.findByIdAndDelete(contactId).then((deletedContact) => {
+            if (deletedContact) {
+                return res.status(200).json({
+                    success: true,
+                    message: `deleted successfully !`,
+                    contact: deletedContact,
+                });
+            } else {
+                return res.status(200).json({
+                    success: false,
+                    message: "Contact can not be found",
+                });
+            }
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
 export default contact_router;
