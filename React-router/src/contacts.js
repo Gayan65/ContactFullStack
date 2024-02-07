@@ -23,7 +23,7 @@ export async function getContacts(query) {
 
 export async function createContact() {
     console.log("createContact");
-    //await fakeNetwork();
+    await fakeNetwork();
     //let id = Math.random().toString(36).substring(2, 9);
     //let contact = { id, createdAt: Date.now() };
     //let contacts = await getContacts();
@@ -31,11 +31,19 @@ export async function createContact() {
     //await set(contacts);
     let contactDate = { createdAt: Date.now() };
     const data = qs.stringify(contactDate);
+
     let contact = await axios
         .post("http://localhost:4000/contact/create", data)
         .then((response) => {
-            return response.data.contact;
+            var person = {
+                id: response.data.contact._id,
+            };
+
+            //const contactObj = response.data.contact;
+            //contactObj.contactId = contactObj._id;
+            return person;
         });
+
     console.log("from create contact", contact);
     return contact;
 }

@@ -9,7 +9,7 @@ export async function action({ request, params }) {
 }
 
 export async function loader({ params }) {
-    console.log("from contact.jsx", params.contactId);
+    console.log("from contact.jsx", params);
     const contact = await getContact(params.contactId);
     if (!contact) {
         throw new Response("Bad Request", {
