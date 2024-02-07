@@ -23,17 +23,25 @@ export async function getContacts(query) {
 
 export async function createContact() {
     console.log("createContact");
-    await fakeNetwork();
-    let id = Math.random().toString(36).substring(2, 9);
-    let contact = { id, createdAt: Date.now() };
-    let contacts = await getContacts();
-    contacts.unshift(contact);
-    await set(contacts);
+    //await fakeNetwork();
+    //let id = Math.random().toString(36).substring(2, 9);
+    //let contact = { id, createdAt: Date.now() };
+    //let contacts = await getContacts();
+    //contacts.unshift(contact);
+    //await set(contacts);
+    let contactDate = { createdAt: Date.now() };
+    const data = qs.stringify(contactDate);
+    let contact = await axios
+        .post("http://localhost:4000/contact/create", data)
+        .then((response) => {
+            return response.data.contact;
+        });
+    console.log("from create contact", contact);
     return contact;
 }
 
 export async function getContact(id) {
-    console.log("getContact");
+    console.log("getContact", id);
     await fakeNetwork(`contact:${id}`);
     //let contacts = await localforage.getItem("contacts");
     //let contact = contacts.find((contact) => contact.id === id);

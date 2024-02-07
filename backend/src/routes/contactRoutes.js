@@ -32,7 +32,7 @@ contact_router.get("/contact/all", async (req, res) => {
 
 //Creating a Contact
 contact_router.post("/contact/create", async (req, res) => {
-    const { first, last, avatar, notes, twitter, id, createdAt } = req.body;
+    const { first, last, avatar, notes, twitter, createdAt } = req.body;
 
     const contact = new Contact({
         first: first,
