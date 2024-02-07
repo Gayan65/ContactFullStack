@@ -2,6 +2,7 @@ import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 import axios from "axios";
+import qs from "qs";
 
 //THIS CALLS EVERY TIME TO MAP THE CONTACTS
 export async function getContacts(query) {
@@ -45,13 +46,18 @@ export async function getContact(id) {
 }
 
 export async function updateContact(id, updates) {
-    console.log("updateContact");
+    console.log("updateContact, id, updates", id, updates);
     await fakeNetwork();
-    let contacts = await localforage.getItem("contacts");
-    let contact = contacts.find((contact) => contact.id === id);
-    if (!contact) throw new Error("No contact found for", id);
-    Object.assign(contact, updates);
-    await set(contacts);
+    //let contacts = await localforage.getItem("contacts");
+    //let contact = contacts.find((contact) => contact.id === id);
+    //if (!contact) throw new Error("No contact found for", id);
+    //Object.assign(contact, updates);
+    //await set(contacts);
+    const data = qs.stringify(updates);
+    const contact = await axios.patch(
+        `http://localhost:4000/contact/edit/${id}`,
+        data
+    );
     return contact;
 }
 

@@ -88,9 +88,9 @@ contact_router.get("/contact/find/:id", async (req, res) => {
 //Update a contact
 contact_router.patch("/contact/edit/:id", async (req, res) => {
     const id = req.params.id;
-    const { first, last, avatar, notes, twitter, createdAt } = req.body;
+    //const { first, last, avatar, notes, twitter, createdAt } = req.body;
     try {
-        await Contact.findOne({ id: id }).then(async (contact) => {
+        await Contact.findOne({ _id: id }).then(async (contact) => {
             if (contact) {
                 await Contact.findByIdAndUpdate(
                     id,
