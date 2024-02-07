@@ -1,12 +1,18 @@
 import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
+import axios from "axios";
 
 //THIS CALLS EVERY TIME TO MAP THE CONTACTS
 export async function getContacts(query) {
     console.log("getContacts");
     await fakeNetwork(`getContacts:${query}`);
-    let contacts = await localforage.getItem("contacts");
+    //let contacts = await localforage.getItem("contacts");
+    let contacts = await axios("http://localhost:4000/contact/all").then(
+        (response) => {
+            return response.data.contacts;
+        }
+    );
     if (!contacts) contacts = [];
     if (query) {
         contacts = matchSorter(contacts, query, { keys: ["first", "last"] });
